@@ -9,6 +9,18 @@ const userSchema = new mongoose.Schema({
   password: {
       type: String,
       required: true
+  },
+  profile: {
+    type: Object,
+    required: true
+  }, 
+  settings: {
+    type: Object,
+    required: true
+  },
+  websites: {
+    type: Array,
+    requried: true
   }
 }, {
   collection:'users'

@@ -32,7 +32,6 @@ app.listen(port,() => {
 const signUp = require('./auth/signUp');
 const signIn = require('./auth/signIn');
 
-
 ////////// MIDDLEWARE ////////////
 const { verifyProtectedRoute } = require('./utils/middleware');
 

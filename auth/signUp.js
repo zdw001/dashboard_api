@@ -17,9 +17,13 @@ exports.main = async (req, res) => {
         // storing our user data into database
         const response = await User.create({
             username,
-            password: hashedPass
+            password: hashedPass,
+            profile: {},
+            settings: {},
+            websites: []
         })
-        return res.redirect('/');
+
+        return  res.send({status: 200, message: 'User successfully created.'})
     } catch (error) {
         console.log(JSON.stringify(error));
 
