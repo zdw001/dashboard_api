@@ -19,10 +19,7 @@ app.use(cors());
 
 app.set('trust proxy', 1);
 
-const JWT_SECRET=process.env.JWT_SECRET;
-const DB_CONNECT=process.env.DB_CONNECT;
-
-mongoose.connect(DB_CONNECT, {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(process.env.DB_CONNECT, {useNewUrlParser: true, useUnifiedTopology: true});
 
 app.listen(port,() => {
     console.log(`Command Center running on port ${port}`);

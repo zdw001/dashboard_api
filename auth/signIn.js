@@ -1,48 +1,58 @@
+const bcrypt = require("bcrypt");
+const User = require('../schema/user');
+const jwt = require('jsonwebtoken');
+
 // user login function
-const verifyUserLogin = async (email,password)=>{
+const verifyUserLogin = async (username, password) => {
+  console.log('username: ', username)
+  console.log('password: ', password)
   try {
-      const user = await User.findOne({email}).lean()
+      const user = await User.findOne({username}).lean();
+
       if (!user) {
-          return {status:'error',error:'user not found'}
+          return {err: true, msg: 'User not found.'}
       }
 
-      if(await bcrypt.compare(password,user.password)){
+      if(await bcrypt.compare(password, user.password)){
           // creating a JWT token
-          token = jwt.sign({
+          let token = jwt.sign({
             id: user._id,
             username: user.email,
             type:'user'
           }, 
-          JWT_SECRET,
+          process.env.JWT_SECRET,
           { 
-            expiresIn: '2h'
+            expiresIn: '24h'
           });
 
-          return {status: 200, data:token}
+          return {token: token, user: user}
       }
 
-      return {status:'error',error:'invalid password'}
+      return {err: true, msg: 'Invalid password.'}
   } catch (error) {
       console.log(error);
 
-      return {status:'error',error:'timed out'}
+      return {err: true,  msg: 'Timed out.'}
   }
 };
 
 exports.main = async (req, res) => {
+  console.log('---------- signIn ---------')
   const {
-    email,
+    username,
     password
   } = req.body;
 
   // we made a function to verify our user login
-  const response = await verifyUserLogin(email,password);
-  
-  if(response.status==='ok'){
-      // storing our JWT web token as a cookie in our browser
-      res.cookie('token',token,{ maxAge: 2 * 60 * 60 * 1000, httpOnly: true });  // maxAge: 2 hours
-      res.redirect('/');
-  }else{
-      res.json(response);
+  const response = await verifyUserLogin(username, password);
+
+  console.log('response:')
+  console.log(response);
+
+  if (response.err) {
+    res.status(400).json(response);
+  } else {
+    // storing our JWT web token as a cookie in our browser
+    res.status(200).json({'user': response.user, 'token': response.token });
   }
 };

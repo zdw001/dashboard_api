@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const User = require('../schema/user');
 
 exports.main = async (req, res) => {
+    console.log('---------- signUp ---------')
    // geting our data from frontend
    const {
         username, 
@@ -15,21 +16,28 @@ exports.main = async (req, res) => {
 
     try {
         // storing our user data into database
-        const response = await User.create({
+        const user = await User.create({
             username,
             password: hashedPass,
             profile: {},
             settings: {},
             websites: []
-        })
+        });
 
-        return  res.send({status: 200, message: 'User successfully created.'})
+        let token = jwt.sign({
+            id: user._id,
+            username: user.email,
+            type:'user'
+        }, 
+        process.env.JWT_SECRET,
+        { 
+            expiresIn: '24h'
+        });
+
+        res.status(200).json({'msg': 'User successfully created.', user: user, token: token})
     } catch (error) {
         console.log(JSON.stringify(error));
 
-        if(error.code === 11000){
-            return res.send({status:'error',error:'username already exists'})
-        }
-        throw error
+        res.status(400).json({'msg': 'Bad Request'});
     }
 };
