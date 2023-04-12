@@ -43,6 +43,9 @@ exports.main = async (req, res) => {
     password
   } = req.body;
 
+  console.log('username: ', username)
+  console.log('password: ', password)
+
   // we made a function to verify our user login
   const response = await verifyUserLogin(username, password);
 
