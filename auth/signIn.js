@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const User = require('../schema/user');
-const jwt = require('jsonwebtoken');
+const jsonwebtoken = require('jsonwebtoken');
 
 // user login function
 const verifyUserLogin = async (username, password) => {
@@ -15,7 +15,7 @@ const verifyUserLogin = async (username, password) => {
 
       if(await bcrypt.compare(password, user.password)){
           // creating a JWT token
-          let token = jwt.sign({
+          let token = jsonwebtoken.sign({
             id: user._id,
             username: user.email,
             type:'user'

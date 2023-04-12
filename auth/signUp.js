@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const User = require('../schema/user');
+const jsonwebtoken = require('jsonwebtoken');
 
 exports.main = async (req, res) => {
     console.log('---------- signUp ---------')
@@ -24,9 +25,9 @@ exports.main = async (req, res) => {
             websites: []
         });
 
-        let token = jwt.sign({
+        let token = jsonwebtoken.sign({
             id: user._id,
-            username: user.email,
+            username: user.username,
             type:'user'
         }, 
         process.env.JWT_SECRET,
