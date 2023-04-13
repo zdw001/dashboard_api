@@ -11,16 +11,19 @@ const userSchema = new mongoose.Schema({
       required: true
   },
   profile: {
-    type: Object,
-    required: true
+    type: mongoose.Schema.Types.Mixed,
+    required: true,
+    default: {}
   }, 
   settings: {
-    type: Object,
-    required: true
+    type: mongoose.Schema.Types.Mixed,
+    required: true,
+    default: {}
   },
   websites: {
     type: Array,
-    requried: true
+    requried: true,
+    default: []
   }
 }, {
   collection:'users'

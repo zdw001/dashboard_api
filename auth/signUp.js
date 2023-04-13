@@ -25,6 +25,8 @@ exports.main = async (req, res) => {
             websites: []
         });
 
+        user.save();
+
         let token = jsonwebtoken.sign({
             id: user._id,
             username: user.username,

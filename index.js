@@ -28,6 +28,7 @@ app.listen(port,() => {
 const signUp = require('./auth/signUp');
 const signIn = require('./auth/signIn');
 const getSession = require('./auth/getSession');
+const addWebsite = require('./core/addWebsite');
 
 ////////// MIDDLEWARE ////////////
 const { verifyProtectedRoute } = require('./utils/middleware');
@@ -36,6 +37,7 @@ app.get('/', (req, res) => res.send('Hello World!'));
 app.post('/sign-up', signUp.main);
 app.post('/sign-in', signIn.main);
 app.get('/get-session', verifyProtectedRoute, getSession.main);
+app.post('/add-website', verifyProtectedRoute, addWebsite.main);
 
 const httpServer = require('http').createServer(app);
 
