@@ -29,6 +29,7 @@ const signUp = require('./auth/signUp');
 const signIn = require('./auth/signIn');
 const getSession = require('./auth/getSession');
 const addWebsite = require('./core/addWebsite');
+const deleteWebsite = require('./core/deleteWebsite');
 
 ////////// MIDDLEWARE ////////////
 const { verifyProtectedRoute } = require('./utils/middleware');
@@ -38,6 +39,7 @@ app.post('/sign-up', signUp.main);
 app.post('/sign-in', signIn.main);
 app.get('/get-session', verifyProtectedRoute, getSession.main);
 app.post('/add-website', verifyProtectedRoute, addWebsite.main);
+app.post('/delete-website', verifyProtectedRoute, deleteWebsite.main);
 
 const httpServer = require('http').createServer(app);
 
