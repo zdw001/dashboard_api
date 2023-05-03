@@ -1,5 +1,22 @@
 const mongoose = require('mongoose');
 
+const websiteSchema = new mongoose.Schema({
+  website_id: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  name: {
+    type: String,
+    required: true
+  },
+  link: String,
+  username: String,
+  password: String,
+  notes: String,
+  img: String
+});
+
 const userSchema = new mongoose.Schema({
   username: {
       type: String,
@@ -20,11 +37,11 @@ const userSchema = new mongoose.Schema({
     required: true,
     default: {}
   },
-  websites: {
-    type: Array,
+  websites: [{
+    type: websiteSchema,
     requried: true,
     default: []
-  }
+  }]
 }, {
   collection:'users'
 }); 

@@ -30,6 +30,7 @@ const signIn = require('./auth/signIn');
 const getSession = require('./auth/getSession');
 const addWebsite = require('./core/addWebsite');
 const deleteWebsite = require('./core/deleteWebsite');
+const editWebsite = require('./core/editWebsite');
 
 ////////// MIDDLEWARE ////////////
 const { verifyProtectedRoute } = require('./utils/middleware');
@@ -40,6 +41,7 @@ app.post('/sign-in', signIn.main);
 app.get('/get-session', verifyProtectedRoute, getSession.main);
 app.post('/add-website', verifyProtectedRoute, addWebsite.main);
 app.post('/delete-website', verifyProtectedRoute, deleteWebsite.main);
+app.post('/edit-website', verifyProtectedRoute, editWebsite.main);
 
 const httpServer = require('http').createServer(app);
 
