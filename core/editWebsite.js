@@ -10,8 +10,10 @@ exports.main = async (req, res) => {
   try {
     let decoded = jsonwebtoken.verify(req.header('authorization').split(' ')[1], process.env.JWT_SECRET);
 
+    console.log('WEBSITE:', website)
+    
     let user = await User.findOneAndUpdate(
-      { _id: decoded.id, 'websites.id': website.id },
+      { _id: decoded.id, 'websites._id': website._id },
       { $set: { 
         'websites.$.name': website.name,
         'websites.$.link': website.link,
@@ -20,8 +22,10 @@ exports.main = async (req, res) => {
         'websites.$.notes': website.notes,
         'websites.$.img': website.img
       }},
-      { lean: true }
+      { lean: true, new: true }
     );
+
+    console.log('USER: ', user)
 
     res.status(200).json({'msg': 'Successfully added website.', user: user})
   } catch (error) {
