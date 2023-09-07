@@ -22,7 +22,7 @@ const verifyUserLogin = async (username, password) => {
           }, 
           process.env.JWT_SECRET,
           { 
-            expiresIn: '24h'
+            // expiresIn: '24h'
           });
 
           return {token: token, user: user}
